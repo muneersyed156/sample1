@@ -5,8 +5,9 @@
     -moz-box-sizing: border-box;
     box-sizing: border-box;
 }
-
-
+body{
+    background-color: aqua;
+}
 .systemtitle{
     margin:auto;
     width:60vw;
@@ -67,26 +68,26 @@ input[type = text],input[type=url]{
  }
 
 button{
-    position:absolute;
-    left:40%;
-    height:100%;
-    width:30%;
-    background-color: dodgerblue;
+    
 }
 
 button:hover{
     cursor: pointer;
 }
 #send{
+    height:100%;
+    width:50%;
     border-radius: 13px;
     outline: none;
     box-sizing: border-box;
     margin-top: 10px;
+    background-color: dodgerblue;
+    margin-left:20vw;
 }
 
 .meme-image-section{
-    height:246px;
-    max-width:470px;
+    height:39vh;
+    max-width:36.36vw;
     margin:auto;
     background-color: blue;
 }
@@ -95,6 +96,9 @@ button:hover{
     margin-top:3vh;
     /* background-color:aqua ; */
     height: 89%;
+    width:80%;
+    margin-left: auto;
+    margin-right: auto;
     border:3px solid white;
     border-radius: 10px;
 }
@@ -102,7 +106,7 @@ button:hover{
 .meme-image{
     height:100%;
     width:100%;
-    
+    border-radius: 3px;
 }
 .memetime{
     display: inline-block;

@@ -7,11 +7,28 @@ var feedsection = document.getElementById("feed")
 var nc = document.getElementById("namecheck")
 var cc = document.getElementById("captioncheck")
 var uc = document.getElementById("urlcheck")
-var ip_address = '192.168.0.106'
 
-function send_data(k) {
+function send_data(k, type) {
     console.log(k)
-    $.post("http://192.168.0.106:8081/memes", k)
+    if (type == "post") {
+        console.log("Going to post")
+        $.post("http://0.0.0.0:8081/memes", k)
+    }
+    else {
+        console.log("PATCH")
+        var patch = k
+        var ide = window.localStorage.getItem("id")
+        window.localStorage.removeItem('id')
+        console.log(patch, ide)
+        $.ajax({
+            type: 'PATCH',
+            url: 'http://0.0.0.0:8081/memes/' + ide,
+            data: JSON.stringify(patch),
+            processData: false,
+            contentType: 'application/merge-patch+json',
+            /* success and error handling omitted for brevity */
+        });
+    }
     // location.reload()
     appending_new()
 }
@@ -32,7 +49,13 @@ send.addEventListener("click", function () {
                 author.value = ''
                 caption.value = ''
                 memeurl.value = ''
-                send_data(k)
+                if (author.readOnly == false) {
+                    send_data(k, "post")
+                }
+                else {
+                    author.readOnly = false
+                    send_data(k, "patch")
+                }
             }
             else {
                 uc.innerHTML = "Enter a valid Meme Url"
@@ -47,14 +70,8 @@ send.addEventListener("click", function () {
     }
 })
 
-// {/* <div class="meme-section">
-//             <p class="memername">Name of Memer1</p>
-//             <p class="memecaption">Caption of Meme1</p>
-//             <p class="memetime">Sun Feb 7 14:11:26 2021</p>
-//             <div class="meme-image-section">
-//                 <img src="https://api.memegen.link/images/buzz/memes/memes_everywhere.png" class="meme-image">
-//             </div>
-//         </div> */}
+//var a=JSON.parse(window.localStorage.getItem("productlist"))
+//window.localStorage.removeItem('productlist')
 
 const interval = setInterval(function () {
     appending_new()
@@ -65,15 +82,26 @@ const clearing = setInterval(() => {
     console.clear();
 }, 100);
 
-
+function edit_meme_data(ide) {
+    $.get("http://0.0.0.0:8081/memes/" + ide, function (data, status) {
+        var data = JSON.parse(data)
+        author.value = data["name"]
+        caption.value = data["caption"]
+        memeurl.value = data["url"]
+        author.readOnly = true;
+        window.localStorage.setItem("id", ide)
+        // send_data({ "caption": data["caption"], "url": data["url"] }, "patch")
+    })
+}
 
 function appending_new() {
-    $.get("http://192.168.0.106:8081/memes", function (data, status) {
+    $.get("http://0.0.0.0:8081/memes", function (data, status) {
         var db = JSON.parse(data)
         feedsection.innerHTML = ''
         db.reverse();
         for (var i = 0; i < data.length; i++) {
             var meme_section_div = document.createElement("div")
+            var edit = document.createElement("button")
             var spant = document.createElement("span")
             var para1 = document.createElement("p")
             var para2 = document.createElement("p")
@@ -89,16 +117,22 @@ function appending_new() {
             para1.innerHTML = db[i].name
             para2.innerHTML = db[i].caption
             para3.innerHTML = db[i].time
+            edit.innerHTML = "Edit"
+            edit.id = db[i].id
+            edit.onclick = function () { edit_meme_data(this.id) }
             image_tag.src = db[i].url
             image_section_div.appendChild(image_tag)
             spant.appendChild(para3)
             meme_section_div.appendChild(para1)
             meme_section_div.appendChild(para2)
             meme_section_div.appendChild(spant)
+            meme_section_div.appendChild(edit)
             meme_section_div.appendChild(image_section_div)
             feedsection.appendChild(meme_section_div)
         }
     })
 
 }
+
+
 
