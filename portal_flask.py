@@ -9,6 +9,7 @@ app=Flask(__name__)
 obj=pymongo.MongoClient()
 db=obj.test
 
+#https://github.com/muneersyed156/sample1.git
 
 @app.route("/memes/<ide>",methods=['GET'])
 @cross_origin(origin='*',headers=['Content-Type','Authorization'])
@@ -38,7 +39,7 @@ def edit_content(ide):
 @app.route("/memes",methods=['GET'])
 @cross_origin(origin='*',headers=['Content-Type','Authorization'])
 def fetchall():
-    result=list(db.sample1.find({},{"_id":0}).sort([("id",-1)]).limit(100))
+    result=list(db.sample1.find({},{"_id":0,"time":0}).sort([("id",-1)]).limit(100))
     result=result[::-1]
     return(json.dumps(result))
 
@@ -63,12 +64,6 @@ def memes():
     else:
         abort(409,"This data already exists")
         return
-    # 
-    # 
-    # 
-    # db.sample1.insert_one({"id":ide,"name":name,"caption":caption,"url":url})
-    # return("Inserted")
-    
 
 
 if __name__=="__main__":
