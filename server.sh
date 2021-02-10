@@ -1,1 +1,1 @@
-python3 portal_flask.python
+nohup python3 portal_flask.py &

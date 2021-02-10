@@ -8,7 +8,7 @@ sudo apt install -y mongodb
 
 sudo apt install -y git
 
-sudo apt install -y python-pip3
+sudo apt install -y python3-pip
 
 pip3 install -r requirements.txt
 
