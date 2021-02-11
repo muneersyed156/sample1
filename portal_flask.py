@@ -39,11 +39,16 @@ def edit_content(ide):
         abort(404,"This id doesn't exist")
 
 @app.route("/memes",methods=['GET'])
+@app.route("/memes/",methods=['GET'])
 @cross_origin(origin='*',headers=['Content-Type','Authorization'])
 def fetchall():
     result=list(db.sample1.find({},{"_id":0}).sort([("id",-1)]).limit(100))
     result=result[::-1]
     return(json.dumps(result))
+
+#@app.route("/memes",methods=['GET'])
+#def fetch_all():
+#    return("None")
 
 @app.route("/memes",methods=["POST"])
 @cross_origin(origin='*',headers=['Content-Type','Authorization'])
