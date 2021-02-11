@@ -9,7 +9,9 @@ app=Flask(__name__)
 obj=pymongo.MongoClient()
 db=obj.test
 
-
+@app.route("/")
+def test():
+    return(render_template("index.html"))
 
 @app.route("/memes/<ide>",methods=['GET'])
 @cross_origin(origin='*',headers=['Content-Type','Authorization'])

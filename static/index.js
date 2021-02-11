@@ -14,7 +14,7 @@ function send_data(k, type) {
     if (type == "post") {
         console.log("Going to post")
         //$.post("http://"+ip+":8081/memes", k)
-        $.post("http://0.0.0.0:8081/memes", k)
+        $.post("/memes", k)
     }
     else {
         console.log("PATCH")
@@ -25,7 +25,7 @@ function send_data(k, type) {
         $.ajax({
             type: 'PATCH',
             //url:"http://"+ip+":8081/memes"
-            url: 'http://0.0.0.0:8081/memes/' + ide,
+            url: '/memes/' + ide,
             data: JSON.stringify(patch),
             processData: false,
             contentType: 'application/merge-patch+json',
@@ -89,7 +89,7 @@ const clearing = setInterval(() => {
 
 function edit_meme_data(ide) {
     //"http://"+ip+":8081/memes/"
-    $.get("http://0.0.0.0:8081/memes/" + ide, function (data, status) {
+    $.get("/memes/" + ide, function (data, status) {
         var data = JSON.parse(data)
         author.value = data["name"]
         caption.value = data["caption"]
@@ -113,7 +113,7 @@ function edit_meme_data(ide) {
  */
 function appending_new() {
     //"http://"+ip+":808a href="#" 1/memes"
-    $.get("http://0.0.0.0:8081/memes", function (data, status) {
+    $.get("/memes/", function (data, status) {
         var db = JSON.parse(data)
         feedsection.innerHTML = ''
         db.reverse();
