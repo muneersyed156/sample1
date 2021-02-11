@@ -9,7 +9,7 @@ app=Flask(__name__)
 obj=pymongo.MongoClient()
 db=obj.test
 
-#https://github.com/muneersyed156/sample1.git
+
 
 @app.route("/memes/<ide>",methods=['GET'])
 @cross_origin(origin='*',headers=['Content-Type','Authorization'])
@@ -39,7 +39,7 @@ def edit_content(ide):
 @app.route("/memes",methods=['GET'])
 @cross_origin(origin='*',headers=['Content-Type','Authorization'])
 def fetchall():
-    result=list(db.sample1.find({},{"_id":0,"time":0}).sort([("id",-1)]).limit(100))
+    result=list(db.sample1.find({},{"_id":0}).sort([("id",-1)]).limit(100))
     result=result[::-1]
     return(json.dumps(result))
 
@@ -68,4 +68,7 @@ def memes():
 
 if __name__=="__main__":
     app.run(debug=True,port=8081,host='0.0.0.0')
+
+
+
 
